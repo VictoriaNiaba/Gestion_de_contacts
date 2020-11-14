@@ -28,7 +28,8 @@ export const databaseProviders = [
           port: configService.get("DATABASE_PORT"),
           username: configService.get("DATABASE_USER"),
           password: configService.get("DATABASE_PASSWORD"),
-          database: configService.get("DATABASE_NAME")
+          database: configService.get("DATABASE_NAME"),
+          "synchronize": true
         });
       }
 
