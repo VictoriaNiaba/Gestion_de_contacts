@@ -11,7 +11,6 @@ import { DatabaseModule } from './database/database.module';
   imports: [
     ContactsModule,
     ConfigModule.forRoot(),
-    TypeOrmModule.forRoot(),
     DatabaseModule,
   ],
   controllers: [AppController],
