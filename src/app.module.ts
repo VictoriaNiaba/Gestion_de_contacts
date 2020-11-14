@@ -3,9 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ContactsModule } from './contacts/contacts.module';
 
 @Module({
   imports: [
+    ContactsModule,
     TypeOrmModule.forRoot(),
   ],
   controllers: [AppController],
