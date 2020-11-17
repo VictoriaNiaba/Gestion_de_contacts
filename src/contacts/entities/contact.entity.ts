@@ -1,4 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { ContactAddress } from '../models/contact-address';
+import { PhoneNumber } from '../models/phone-number';
 
 @Entity()
 export class Contact {
@@ -16,4 +18,8 @@ export class Contact {
 
   @Column()
   email: string;
+
+  address: ContactAddress;
+
+  phoneNumber: PhoneNumber[];
 }
