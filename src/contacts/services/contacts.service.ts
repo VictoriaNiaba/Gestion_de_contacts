@@ -22,41 +22,45 @@ export class ContactsService {
         return this.contactsRepository.save(createContactDto);
     }
 
-    addContact(createContactDto: CreateContactDto) {
-        if (createContactDto == null) {
-            throw new HttpException({
-                status: HttpStatus.BAD_REQUEST,
-                error: 'Contact can not be null',
-            }, 404);
-        }
-        return this.contactsRepository.save(createContactDto);
-    }
 
     findAll() {
         return this.contactsRepository.find();
     }
 
-    findContact() {
-        return this.contactsRepository.findOne();
-    }
-
     findOne(id: number) {
+        if( this.getContactById(id) == null){
+                throw new HttpException({
+                    status: HttpStatus.BAD_REQUEST,
+                    error: 'the contact you are looking for does not exist',
+                }, 404);
+        }
         return this.contactsRepository.findOne(id);
     }
 
     update(id: number, updateContactDto: UpdateContactDto) {
+        if( this.getContactById(id) == null){
+            throw new HttpException({
+                status: HttpStatus.BAD_REQUEST,
+                error: 'the contact you want to update does not exist',
+            }, 404);
+        }
         return this.contactsRepository.update(id, updateContactDto);
     }
 
     remove(id: number) {
+        if( this.getContactById(id) == null){
+            throw new HttpException({
+                status: HttpStatus.BAD_REQUEST,
+                error: 'the contact you want to delete does not exist',
+            }, 404);
+        }
         return this.contactsRepository.delete(id);
     }
 
-    updateContact(id: number, updateContactDto: UpdateContactDto) {
-        return this.contactsRepository.update(id, updateContactDto);
+    getContactById(id: number){
+        return this.contactsRepository.findOne(id) ;
     }
 
-    removeContact(id: number) {
-        return this.contactsRepository.delete(id);
-    }
+
+
 }
