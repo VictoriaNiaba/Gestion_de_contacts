@@ -6,18 +6,25 @@ import { Contact } from '../entities/contact.entity';
 
 @Injectable()
 export class ContactsService {
-
   constructor(
     @Inject('CONTACTS_REPOSITORY')
-    private contactsRepository: Repository<Contact>
-  ) { }
+    private contactsRepository: Repository<Contact>,
+  ) {}
 
   create(createContactDto: CreateContactDto) {
     return this.contactsRepository.save(createContactDto);
   }
 
+  addContact(createContactDto: CreateContactDto) {
+    return this.contactsRepository.save(createContactDto);
+  }
+
   findAll() {
     return this.contactsRepository.find();
+  }
+
+  findContact() {
+    return this.contactsRepository.findOne();
   }
 
   findOne(id: number) {
@@ -29,6 +36,14 @@ export class ContactsService {
   }
 
   remove(id: number) {
+    return this.contactsRepository.delete(id);
+  }
+
+  updateContact(id: number, updateContactDto: UpdateContactDto) {
+    return this.contactsRepository.update(id, updateContactDto);
+  }
+
+  removeContact(id: number) {
     return this.contactsRepository.delete(id);
   }
 }
