@@ -1,25 +1,24 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { ContactAddress } from '../models/contact-address';
-import { PhoneNumber } from '../models/phone-number';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Civility, ContactAddress, PhoneNumber } from "../models";
 
 @Entity()
 export class Contact {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  civility: Civility;
+    @Column()
+    civility: Civility;
 
-  @Column()
-  firstName: string;
+    @Column()
+    firstName: string;
 
-  @Column()
-  lastName: string;
+    @Column()
+    lastName: string;
 
-  @Column()
-  email: string;
+    @Column()
+    email: string;
 
-  address: ContactAddress;
+    address: ContactAddress;
 
-  phoneNumber: PhoneNumber[];
+    phoneNumber: PhoneNumber[];
 }

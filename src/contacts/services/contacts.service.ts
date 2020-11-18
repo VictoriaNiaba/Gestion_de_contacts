@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { CreateContactDto } from '../dto/create-contact.dto';
-import { UpdateContactDto } from '../dto/update-contact.dto';
 import { Contact } from '../entities/contact.entity';
+import * as _ from 'lodash';
+import { CreateContactDto, UpdateContactDto } from "../dto";
 
 @Injectable()
 export class ContactsService {
@@ -13,7 +13,7 @@ export class ContactsService {
     }
 
     create(createContactDto: CreateContactDto) {
-        if (createContactDto == null) {
+        if (_.isEmpty(createContactDto)) {
             throw new HttpException({
                 status: HttpStatus.BAD_REQUEST,
                 error: 'Contact can not be null',
@@ -28,17 +28,17 @@ export class ContactsService {
     }
 
     findOne(id: number) {
-        if( this.getContactById(id) == null){
-                throw new HttpException({
-                    status: HttpStatus.BAD_REQUEST,
-                    error: 'the contact you are looking for does not exist',
-                }, 404);
+        if (this.getContactById(id) == null) {
+            throw new HttpException({
+                status: HttpStatus.BAD_REQUEST,
+                error: 'the contact you are looking for does not exist',
+            }, 404);
         }
         return this.contactsRepository.findOne(id);
     }
 
     update(id: number, updateContactDto: UpdateContactDto) {
-        if( this.getContactById(id) == null){
+        if (this.getContactById(id) == null) {
             throw new HttpException({
                 status: HttpStatus.BAD_REQUEST,
                 error: 'the contact you want to update does not exist',
@@ -48,7 +48,7 @@ export class ContactsService {
     }
 
     remove(id: number) {
-        if( this.getContactById(id) == null){
+        if (this.getContactById(id) == null) {
             throw new HttpException({
                 status: HttpStatus.BAD_REQUEST,
                 error: 'the contact you want to delete does not exist',
@@ -57,10 +57,9 @@ export class ContactsService {
         return this.contactsRepository.delete(id);
     }
 
-    getContactById(id: number){
-        return this.contactsRepository.findOne(id) ;
+    getContactById(id: number) {
+        return this.contactsRepository.findOne(id);
     }
-
 
 
 }

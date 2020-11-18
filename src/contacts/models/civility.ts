@@ -1,4 +1,4 @@
-enum Civility{
+export enum Civility{
     M,
     Ms
 }
