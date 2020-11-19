@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, HttpException, BadRequestException } from '@nestjs/common';
 import { ContactsService } from '../services/contacts.service';
 import { CreateContactDto, UpdateContactDto } from '../dto';
 
@@ -8,6 +8,7 @@ export class ContactsController {
 
   @Post()
   create(@Body() createContactDto: CreateContactDto) {
+    throw new BadRequestException();
     return this.contactsService.create(createContactDto);
   }
 
