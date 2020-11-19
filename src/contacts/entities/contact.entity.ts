@@ -1,12 +1,12 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Civility, ContactAddress, PhoneNumber } from "../models";
+import { Civility, Address } from '.';
 
 @Entity()
 export class Contact {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column('text')
     civility: Civility;
 
     @Column()
@@ -18,7 +18,9 @@ export class Contact {
     @Column()
     email: string;
 
-    address: ContactAddress;
+    @Column()
+    phoneNumber: string;
 
-    phoneNumber: PhoneNumber[];
+    @Column(type => Address)
+    address: Address;
 }

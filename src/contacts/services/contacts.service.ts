@@ -1,7 +1,8 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Contact } from '../entities/contact.entity';
 import * as _ from 'lodash';
+
+import { Contact } from '../entities/contact.entity';
 import { ApiError, CreateContactDto, UpdateContactDto } from "../dto";
 
 @Injectable()

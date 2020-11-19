@@ -1,11 +1,10 @@
-import { ContactAddress } from '../models/contact-address';
-import { PhoneNumber } from '../models/phone-number';
+import { Address, Civility } from "../entities";
 
 export class CreateContactDto {
   civility: Civility;
   firstName: string;
   lastName: string;
   email: string;
-  address: ContactAddress;
-  phoneNumber: PhoneNumber[];
+  address: Address;
+  phoneNumber: string;
 }
