@@ -1,4 +1,10 @@
+import { Address, Civility } from "../entities";
+
 export class CreateContactDto {
-    firstName: string;
-    lastName: string;
+  civility: Civility;
+  firstName: string;
+  lastName: string;
+  email: string;
+  address: Address;
+  phoneNumber: string;
 }

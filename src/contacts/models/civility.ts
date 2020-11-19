@@ -1,4 +1,0 @@
-enum Civility{
-    M,
-    Ms
-}
