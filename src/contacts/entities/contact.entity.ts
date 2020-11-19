@@ -10,4 +10,5 @@ export class Contact {
 
   @Column()
   lastName: string;
+  
 }
