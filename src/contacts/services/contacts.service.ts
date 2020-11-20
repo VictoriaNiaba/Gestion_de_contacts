@@ -1,35 +1,52 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { Contact } from '../entities/contact.entity';
-import { CreateContactDto, UpdateContactDto } from "../dto";
+import { CreateContactDto, UpdateContactDto } from '../dto';
 
 @Injectable()
 export class ContactsService {
-    constructor(
-        @Inject('CONTACTS_REPOSITORY')
-        private contactsRepository: Repository<Contact>,
-    ) {
-    }
+  constructor(
+    @Inject('CONTACTS_REPOSITORY')
+    private contactsRepository: Repository<Contact>,
+  ) {}
 
-    create(createContactDto: CreateContactDto) {
-        return this.contactsRepository.save(createContactDto);
-    }
+  create(createContactDto: CreateContactDto) {
+    return this.contactsRepository.save(createContactDto);
+  }
 
-    findAll() {
-        return this.contactsRepository.find();
-    }
+  findAll() {
+    return this.contactsRepository.find();
+  }
 
-    findOne(id: number) {
-        return this.contactsRepository.findOne(id);
+  async findOne(id: number) {
+    const contact = await this.contactsRepository.findOne(id);
+    
+    if (!contact) {
+      throw new NotFoundException(`Contact not found with 'id': ${id}`);
     }
+    return contact;
+  }
 
-    update(id: number, updateContactDto: UpdateContactDto) {
-        return this.contactsRepository.update(id, updateContactDto);
+  async update(id: number, updateContactDto: UpdateContactDto) {
+    const contact = await this.contactsRepository.findOne(id);
+
+    if (!contact) {
+      throw new NotFoundException(`Contact not found with 'id': ${id}`);
     }
+    return await this.contactsRepository.update(id, updateContactDto);
+  }
 
-    remove(id: number) {
-        return this.contactsRepository.delete(id);
+  async remove(id: number) {
+    const contact = await this.contactsRepository.findOne(id);
+
+    if (!contact) {
+      throw new NotFoundException(`Contact not found with 'id': ${id}`);
     }
-
+    return this.contactsRepository.delete(id);
+  }
 }

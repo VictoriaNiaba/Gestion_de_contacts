@@ -53,15 +53,15 @@ export class ContactsController {
   @ApiOkResponse({ description: 'Contact mis à jour' })
   @ApiInternalServerErrorResponse({ description: 'Erreur interne du serveur' })
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {
-    return this.contactsService.update(+id, updateContactDto);
+  async update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {
+    await this.contactsService.update(+id, updateContactDto);
   }
 
   @ApiOperation({ summary: 'Supprimer un contact' })
   @ApiOkResponse({ description: 'Contact supprimé' })
   @ApiInternalServerErrorResponse({ description: 'Erreur interne du serveur' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.contactsService.remove(+id);
+  async remove(@Param('id') id: string) {
+    await this.contactsService.remove(+id);
   }
 }
