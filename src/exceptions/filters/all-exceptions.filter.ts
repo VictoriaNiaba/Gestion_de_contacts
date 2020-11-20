@@ -21,10 +21,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     // Toutes les exceptions non-gérées sont mappées vers une Internal Server Error (500)
     const obfuscatedException = new InternalServerErrorException();
+    const obfuscatedResponse = obfuscatedException.getResponse() as any;
 
     const apiError: ApiError = {
       status: obfuscatedException.getStatus(),
-      title: (obfuscatedException.getResponse() as any).message,
+      title: obfuscatedResponse.message || obfuscatedResponse,
       timestamp: new Date().toISOString(),
       path: request.url,
     };
