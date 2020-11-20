@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, HttpException, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+  HttpCode,
+} from '@nestjs/common';
+
 import { ContactsService } from '../services/contacts.service';
 import { CreateContactDto, UpdateContactDto } from '../dto';
 
@@ -8,7 +18,6 @@ export class ContactsController {
 
   @Post()
   create(@Body() createContactDto: CreateContactDto) {
-    throw new BadRequestException();
     return this.contactsService.create(createContactDto);
   }
 
@@ -22,13 +31,15 @@ export class ContactsController {
     return this.contactsService.findOne(+id);
   }
 
+  @HttpCode(204)
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {
-    return this.contactsService.update(+id, updateContactDto);
+  async update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {
+    await this.contactsService.update(+id, updateContactDto);
   }
 
+  @HttpCode(204)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.contactsService.remove(+id);
+  async remove(@Param('id') id: string) {
+    await this.contactsService.remove(+id);
   }
 }

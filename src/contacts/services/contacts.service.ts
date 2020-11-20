@@ -1,4 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { Contact } from '../entities/contact.entity';
@@ -19,15 +23,30 @@ export class ContactsService {
     return this.contactsRepository.find();
   }
 
-  findOne(id: number) {
-    return this.contactsRepository.findOne(id);
+  async findOne(id: number) {
+    const contact = await this.contactsRepository.findOne(id);
+    
+    if (!contact) {
+      throw new NotFoundException(`Contact not found with 'id': ${id}`);
+    }
+    return contact;
   }
 
-  update(id: number, updateContactDto: UpdateContactDto) {
-    return this.contactsRepository.update(id, updateContactDto);
+  async update(id: number, updateContactDto: UpdateContactDto) {
+    const contact = await this.contactsRepository.findOne(id);
+
+    if (!contact) {
+      throw new NotFoundException(`Contact not found with 'id': ${id}`);
+    }
+    return await this.contactsRepository.update(id, updateContactDto);
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    const contact = await this.contactsRepository.findOne(id);
+
+    if (!contact) {
+      throw new NotFoundException(`Contact not found with 'id': ${id}`);
+    }
     return this.contactsRepository.delete(id);
   }
 }
