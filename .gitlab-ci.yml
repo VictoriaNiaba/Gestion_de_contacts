@@ -1,0 +1,59 @@
+image: node:12.1.0
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  # - tests
+  - deploy
+
+build:
+  stage: build
+  before_script:
+    - npm install 
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist
+
+# tests:
+#   stage: tests
+#   script:
+#     - npm run test
+
+# coverage:
+#   stage: tests
+#   script:
+#     - npm run test:cov
+
+deploy_staging:
+  resource_group: deploy
+  stage: deploy
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+  dependencies:
+    - build
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU-API-KEY
+  only:
+    - staging
+
+deploy_production:
+  resource_group: deploy
+  stage: deploy
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+  dependencies:
+    - build
+  when: manual
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api-key=$HEROKU-API-KEY
+  only:
+    - master
