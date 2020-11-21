@@ -6,6 +6,8 @@ import {
   Put,
   Param,
   Delete,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ContactsService } from '../services/contacts.service';
 import { CreateContactDto, UpdateContactDto } from '../dto';
@@ -16,6 +18,7 @@ import {
   ApiInternalServerErrorResponse,
   ApiOperation,
 } from '@nestjs/swagger';
+import { validate } from 'class-validator';
 
 @ApiTags('contacts')
 @Controller('contacts')
@@ -37,6 +40,7 @@ export class ContactsController {
   @ApiCreatedResponse({ description: 'Contact créé avec succès' })
   @ApiInternalServerErrorResponse({ description: 'Erreur interne du serveur' })
   @Post()
+  @UsePipes(new ValidationPipe)
   create(@Body() createContactDto: CreateContactDto) {
     return this.contactsService.create(createContactDto);
   }

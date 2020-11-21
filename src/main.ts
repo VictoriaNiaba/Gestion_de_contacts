@@ -15,7 +15,7 @@ async function bootstrap() {
     .addTag('contacts')
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('swagger', app, document);
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
