@@ -1,4 +1,4 @@
-image: node:12.x-buster
+image: node:12.1.0-buster
 
 cache:
   paths:
