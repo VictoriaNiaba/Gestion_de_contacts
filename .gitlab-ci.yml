@@ -1,4 +1,4 @@
-image: node:12.1.0-buster
+image: node:12.1.0
 
 cache:
   paths:
@@ -32,10 +32,7 @@ build:
 deploy_staging:
   resource_group: deploy
   stage: deploy
-  before_script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
+  image: ruby:latest
   dependencies:
     - build
   script:
@@ -46,10 +43,7 @@ deploy_staging:
 deploy_production:
   resource_group: deploy
   stage: deploy
-  before_script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
+  image: ruby:latest
   dependencies:
     - build
   when: manual
