@@ -53,7 +53,10 @@ export class ContactsController {
   @ApiOkResponse({ description: 'Contact mis à jour' })
   @ApiInternalServerErrorResponse({ description: 'Erreur interne du serveur' })
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateContactDto: UpdateContactDto,
+  ) {
     await this.contactsService.update(+id, updateContactDto);
   }
 

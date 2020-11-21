@@ -20,8 +20,6 @@ import { HttpExceptionFilter } from './filters/http-exception.filter';
       useClass: HttpExceptionFilter,
     },
   ],
-  imports: [
-    ConfigModule
-  ]
+  imports: [ConfigModule],
 })
 export class ExceptionsModule {}

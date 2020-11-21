@@ -17,4 +17,4 @@ import { ExceptionsModule } from './exceptions/exceptions.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

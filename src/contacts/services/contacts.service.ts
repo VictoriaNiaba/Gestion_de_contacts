@@ -1,8 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { Contact } from '../entities/contact.entity';
@@ -25,7 +21,7 @@ export class ContactsService {
 
   async findOne(id: number) {
     const contact = await this.contactsRepository.findOne(id);
-    
+
     if (!contact) {
       throw new NotFoundException(`Contact not found with 'id': ${id}`);
     }

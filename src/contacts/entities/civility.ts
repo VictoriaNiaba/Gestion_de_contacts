@@ -1,4 +1,4 @@
 export enum Civility {
-    M = "M",
-    Ms = "Ms"
+  M = 'M',
+  Ms = 'Ms',
 }
