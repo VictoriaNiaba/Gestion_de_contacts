@@ -1,18 +1,46 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Address, Civility } from '../entities';
+import {
+  IsEmail,
+  IsEnum,
+  MinLength,
+  MaxLength,
+  IsOptional,
+} from 'class-validator';
+
+import { Address, Title } from '../entities';
 
 export class CreateContactDto {
-  civility: Civility;
+  @IsEnum(Title)
+  @IsOptional()
+  @ApiProperty({
+    example: 'MR',
+    description: 'Defines gender and whether the contact is married or not',
+  })
+  title?: Title;
 
-  @ApiProperty()
+  @MaxLength(50)
+  @MinLength(3)
+  @ApiProperty({ example: 'Mohamed' })
   firstName: string;
 
-  @ApiProperty()
-  lastName: string;
+  @IsOptional()
+  @MaxLength(50)
+  @MinLength(3)
+  @ApiProperty({ example: 'Omar' })
+  lastName?: string;
 
-  email: string;
+  @IsEmail()
+  @IsOptional()
+  @MinLength(5)
+  @MaxLength(320)
+  @ApiProperty({ example: 'mohamed.omar@gmail.com' })
+  email?: string;
 
-  address: Address;
-  
+  @MaxLength(25)
+  @MinLength(10)
+  @ApiProperty({ example: '06-54-34-86-50' })
   phoneNumber: string;
+
+  @IsOptional()
+  address?: Address;
 }

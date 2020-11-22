@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { ApiError } from '../api-error';
+import { ApiErrorDto } from '../api-error.dto';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -23,7 +23,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const obfuscatedException = new InternalServerErrorException();
     const obfuscatedResponse = obfuscatedException.getResponse() as any;
 
-    const apiError: ApiError = {
+    const apiError: ApiErrorDto = {
       status: obfuscatedException.getStatus(),
       title: obfuscatedResponse.message || obfuscatedResponse,
       timestamp: new Date().toISOString(),
