@@ -1,66 +1,46 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Address, Civility } from '../entities';
 import {
-  IsDefined,
   IsEmail,
-  Length,
-  IsNotEmpty,
   IsEnum,
   MinLength,
   MaxLength,
-  IsString,
+  IsOptional,
 } from 'class-validator';
 
-export class CreateContactDto {
-  @IsEnum(Civility)
-  @ApiProperty({
-    description: 'description de la propiété de civilité ',
-    enum: Civility,
-  })
-  civility: Civility;
+import { Address, Title } from '../entities';
 
-  @MinLength(2, {
-    message: 'Le prénom est trop court',
+export class CreateContactDto {
+  @IsEnum(Title)
+  @IsOptional()
+  @ApiProperty({
+    example: 'MR',
+    description: 'Defines gender and whether the contact is married or not',
   })
-  @MaxLength(25, {
-    message: 'Le prénom est trop long',
-  })
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsDefined()
-  @IsString()
+  title?: Title;
+
+  @MaxLength(50)
+  @MinLength(3)
+  @ApiProperty({ example: 'Mohamed' })
   firstName: string;
 
-  @MinLength(2, {
-    message: 'Le nom est trop court',
-  })
-  @MaxLength(25, {
-    message: 'Le nom est trop long',
-  })
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsDefined()
-  @IsString()
-  lastName: string;
+  @IsOptional()
+  @MaxLength(50)
+  @MinLength(3)
+  @ApiProperty({ example: 'Omar' })
+  lastName?: string;
 
-  @ApiProperty({
-    example: 'username@gmail.com',
-  })
-  @IsNotEmpty()
   @IsEmail()
-  email: string;
+  @IsOptional()
+  @MinLength(5)
+  @MaxLength(320)
+  @ApiProperty({ example: 'mohamed.omar@gmail.com' })
+  email?: string;
 
-  @IsNotEmpty()
-  @IsDefined()
-  @ApiProperty()
-  //@ApiExtraModels(Address)
-  address: Address;
-
-  @ApiProperty({
-    description: 'Saisir votre numéro de téléphone',
-  })
-  @Length(10, 12)
-  @IsNotEmpty()
-  @IsDefined()
+  @MaxLength(25)
+  @MinLength(10)
+  @ApiProperty({ example: '06-54-34-86-50' })
   phoneNumber: string;
+
+  @IsOptional()
+  address?: Address;
 }

@@ -1,3 +1,3 @@
-export * from './civility';
+export * from './title';
 export * from './contact.entity';
-export * from './address';
+export * from './address.entity';
