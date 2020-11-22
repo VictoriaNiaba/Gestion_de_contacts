@@ -12,19 +12,18 @@ export class Contact {
     example: 'MR',
     description: 'Defines gender and whether the contact is married or not',
   })
-  @Column('text')
+  @Column({ type: 'text', nullable: true })
   title?: Title;
 
   @ApiProperty({ example: 'Mohamed' })
-  @Column()
   firstName: string;
 
   @ApiProperty({ example: 'Omar' })
-  @Column()
+  @Column({ nullable: true })
   lastName?: string;
 
   @ApiProperty({ example: 'mohamed.omar@gmail.com' })
-  @Column()
+  @Column({ nullable: true })
   email?: string;
 
   @ApiProperty({ example: '06-54-34-86-50' })
