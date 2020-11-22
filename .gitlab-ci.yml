@@ -11,7 +11,7 @@ before_script:
 
 stages:
   - build
-  # - tests
+  - tests
   - deploy
 
 build:
@@ -24,15 +24,15 @@ build:
     paths:
       - dist
 
-# tests:
-#   stage: tests
-#   script:
-#     - npm run test
+tests:
+  stage: tests
+  script:
+    - npm run test
 
-# coverage:
-#   stage: tests
-#   script:
-#     - npm run test:cov
+coverage:
+  stage: tests
+  script:
+    - npm run test:cov
 
 deploy_staging:
   resource_group: deploy
