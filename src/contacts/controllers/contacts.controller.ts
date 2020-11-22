@@ -6,6 +6,7 @@ import {
   Put,
   Param,
   Delete,
+  Query,
   HttpCode,
 } from '@nestjs/common';
 import {
@@ -20,8 +21,9 @@ import {
 } from '@nestjs/swagger';
 
 import { ContactsService } from '../providers/contacts.service';
-import { ApiErrorDto } from '../../exceptions/api-error.dto';
 import { CreateContactDto, UpdateContactDto } from '../dto';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { ApiErrorDto } from '../../exceptions/api-error.dto';
 import { Contact } from '../entities';
 
 @ApiTags('Contact management')
@@ -32,15 +34,24 @@ export class ContactsController {
   @ApiOperation({ summary: 'List contacts' })
   @ApiOkResponse({
     description: 'The list of contacts',
-    type: Contact, isArray: true
+    type: Contact,
+    isArray: true,
   })
   @ApiInternalServerErrorResponse({
     description: 'Internal Server Error',
     type: ApiErrorDto,
   })
-  @Get()
-  findAll() {
-    return this.contactsService.findAll();
+  @Get('')
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ): Promise<Pagination<Contact>> {
+    limit = (limit > 1000) ? 1000 : limit;
+    
+    return this.contactsService.paginate({
+      page: Number(page),
+      limit: Number(limit)
+    });
   }
 
   @ApiOperation({ summary: 'Create a contact' })
@@ -73,7 +84,10 @@ export class ContactsController {
     return this.contactsService.findOne(+id);
   }
 
-  @ApiOperation({ summary: 'Update a contact', description: 'Allows partial updates of a contact' })
+  @ApiOperation({
+    summary: 'Update a contact',
+    description: 'Allows partial updates of a contact',
+  })
   @ApiNoContentResponse({ description: 'The contact was sucessfully updated' })
   @ApiInternalServerErrorResponse({
     description: 'Internal Server Error',
@@ -106,6 +120,6 @@ export class ContactsController {
   @Delete(':id')
   @HttpCode(204)
   async remove(@Param('id') id: string) {
-    await this.contactsService.remove(+id);
+    return this.contactsService.remove(+id);
   }
 }

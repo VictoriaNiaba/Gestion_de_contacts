@@ -3,13 +3,22 @@ import { Repository } from 'typeorm';
 
 import { Contact } from '../entities/contact.entity';
 import { CreateContactDto, UpdateContactDto } from '../dto';
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class ContactsService {
   constructor(
     @Inject('CONTACTS_REPOSITORY')
-    private contactsRepository: Repository<Contact>,
+    private readonly contactsRepository: Repository<Contact>,
   ) {}
+
+  paginate(options: IPaginationOptions) {
+    return paginate<Contact>(this.contactsRepository, options);
+  }
 
   create(createContactDto: CreateContactDto) {
     return this.contactsRepository.save(createContactDto);
