@@ -6,8 +6,11 @@ import {
   Put,
   Param,
   Delete,
+  UsePipes,
+  ValidationPipe,
+  Query,
 } from '@nestjs/common';
-import { ContactsService } from '../services/contacts.service';
+import { ContactsService} from '../services/contacts.service';
 import { CreateContactDto, UpdateContactDto } from '../dto';
 import {
   ApiTags,
@@ -16,6 +19,9 @@ import {
   ApiInternalServerErrorResponse,
   ApiOperation,
 } from '@nestjs/swagger';
+import { validate } from 'class-validator';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { Contact } from '../entities';
 
 @ApiTags('contacts')
 @Controller('contacts')
@@ -28,15 +34,24 @@ export class ContactsController {
     status: 500,
     description: 'Erreur interne du serveur',
   })
-  @Get()
-  findAll() {
-    return this.contactsService.findAll();
+  @Get('')
+  async index(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ): Promise<Pagination<Contact>> {
+    limit = limit > 100 ? 100 : limit;
+    return this.contactsService.paginate({
+    page: Number(page),
+    limit: Number(limit),
+    route: 'http://localhost:3000/contacts',
+    })
   }
 
   @ApiOperation({ summary: 'Créer un contact' })
   @ApiCreatedResponse({ description: 'Contact créé avec succès' })
   @ApiInternalServerErrorResponse({ description: 'Erreur interne du serveur' })
   @Post()
+  @UsePipes(new ValidationPipe)
   create(@Body() createContactDto: CreateContactDto) {
     return this.contactsService.create(createContactDto);
   }
