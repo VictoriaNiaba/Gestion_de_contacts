@@ -20,7 +20,6 @@ export const repositoryMockFactory: () => MockType<Repository<any>> = jest.fn(()
 
 describe('ContactsService', () => {
   let service: ContactsService;
-  let repositoryMock: MockType<Repository<Contact>>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -29,6 +28,7 @@ describe('ContactsService', () => {
          { provide: 'CONTACTS_REPOSITORY', useFactory: repositoryMockFactory },
       ],
     }).compile();
+
     service = module.get<ContactsService>(ContactsService);
     repositoryMock = module.get('CONTACTS_REPOSITORY');
   });

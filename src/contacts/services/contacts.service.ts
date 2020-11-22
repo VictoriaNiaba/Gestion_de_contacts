@@ -1,6 +1,11 @@
-import { Inject, Injectable, Module, NotFoundException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Contact } from '../entities';
+
+import { Contact } from '../entities/contact.entity';
 import { CreateContactDto, UpdateContactDto } from '../dto';
 
 @Injectable()
