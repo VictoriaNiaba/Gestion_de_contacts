@@ -1,8 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { Contact } from '../entities/contact.entity';
@@ -20,12 +16,9 @@ export class ContactsService {
     private readonly contactsRepository: Repository<Contact>,
   ) {}
 
-
-  async paginate(options: IPaginationOptions): Promise<Pagination<Contact>> {
+  paginate(options: IPaginationOptions) {
     return paginate<Contact>(this.contactsRepository, options);
-      }
-
- 
+  }
 
   create(createContactDto: CreateContactDto) {
     return this.contactsRepository.save(createContactDto);
@@ -37,7 +30,7 @@ export class ContactsService {
 
   async findOne(id: number) {
     const contact = await this.contactsRepository.findOne(id);
-    
+
     if (!contact) {
       throw new NotFoundException(`Contact not found with 'id': ${id}`);
     }

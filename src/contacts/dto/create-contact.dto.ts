@@ -1,59 +1,46 @@
-import {  ApiProperty } from '@nestjs/swagger';
-import { Address, Civility } from '../entities';
-import { IsDefined,IsEmail,Length, IsNotEmpty,IsEnum, MinLength, MaxLength, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsEmail,
+  IsEnum,
+  MinLength,
+  MaxLength,
+  IsOptional,
+} from 'class-validator';
+
+import { Address, Title } from '../entities';
 
 export class CreateContactDto {
-  
-
-  @IsEnum(Civility)
+  @IsEnum(Title)
+  @IsOptional()
   @ApiProperty({
-    description: 'description de la propiété de civilité ',
-    enum: Civility
+    example: 'MR',
+    description: 'Defines gender and whether the contact is married or not',
   })
- 
-  civility: Civility;
+  title?: Title;
 
-  @MinLength(2, {
-    message: "Le prénom est trop court"
-})
-@MaxLength(25, {
-    message: "Le prénom est trop long"})
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsDefined()
-  @IsString()
+  @MaxLength(50)
+  @MinLength(3)
+  @ApiProperty({ example: 'Mohamed' })
   firstName: string;
 
-  @MinLength(2, {
-    message: "Le nom est trop court"
-})
-@MaxLength(25, {
-    message: "Le nom est trop long"})
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsDefined()
-  @IsString()
-  lastName: string;
+  @IsOptional()
+  @MaxLength(50)
+  @MinLength(3)
+  @ApiProperty({ example: 'Omar' })
+  lastName?: string;
 
-  @ApiProperty({
-    example: 'username@gmail.com',
-    }) 
-  @IsNotEmpty()
   @IsEmail()
-  email: string;
+  @IsOptional()
+  @MinLength(5)
+  @MaxLength(320)
+  @ApiProperty({ example: 'mohamed.omar@gmail.com' })
+  email?: string;
 
-  
-  @IsNotEmpty()
-  @IsDefined()
-  @ApiProperty()
-  //@ApiExtraModels(Address)
-  address: Address;
-
- 
-  @ApiProperty({ 
-    description: "Saisir votre numéro de téléphone"})
-  @Length(10, 12)
-  @IsNotEmpty()
-  @IsDefined()
+  @MaxLength(25)
+  @MinLength(10)
+  @ApiProperty({ example: '06-54-34-86-50' })
   phoneNumber: string;
+
+  @IsOptional()
+  address?: Address;
 }

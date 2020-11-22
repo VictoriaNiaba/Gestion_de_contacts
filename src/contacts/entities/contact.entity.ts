@@ -1,26 +1,35 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Civility, Address } from '.';
+import { Title, Address } from '.';
 
 @Entity()
 export class Contact {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @ApiProperty({ example: '1' })
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column('text')
-    civility: Civility;
+  @ApiProperty({
+    example: 'MR',
+    description: 'Defines gender and whether the contact is married or not',
+  })
+  @Column({ type: 'text', nullable: true })
+  title?: Title;
 
-    @Column()
-    firstName: string;
+  @ApiProperty({ example: 'Mohamed' })
+  firstName: string;
 
-    @Column()
-    lastName: string;
+  @ApiProperty({ example: 'Omar' })
+  @Column({ nullable: true })
+  lastName?: string;
 
-    @Column()
-    email: string;
+  @ApiProperty({ example: 'mohamed.omar@gmail.com' })
+  @Column({ nullable: true })
+  email?: string;
 
-    @Column()
-    phoneNumber: string;
+  @ApiProperty({ example: '06-54-34-86-50' })
+  @Column()
+  phoneNumber: string;
 
-    @Column(type => Address)
-    address: Address;
+  @Column((type) => Address)
+  address?: Address;
 }
